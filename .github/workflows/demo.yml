@@ -25,6 +25,14 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+        # Can store the produced files as artifacts using the actions
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with: 
+          # Give the name for the artifacts
+          name: dist-files
+          # Path to the files that we want to store as artifacts
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
