@@ -38,5 +38,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+        # Download the artifacts using the actions
+      - name: Get dist artifacts
+        uses: actions/download-artifact@v3
+        with: 
+          # Give the name for the artifacts want to download
+          name: dist-files
+        # Check the download the content correctly
+      - name: Output content
+        run: ls
       - name: Deploy
         run: echo "Deploying..."
