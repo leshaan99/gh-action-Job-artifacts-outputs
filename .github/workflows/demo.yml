@@ -10,6 +10,15 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+        # By caching node_modules the workflow avoids re-downloading dependencies on every run.
+      - name: Cache dependencies
+        uses: action/cache@v3
+        with:
+          # Specifies the path to the npm cache directory which stores dependencies
+          path: ~/.npm
+          # The key is a unique identifier for the cache.
+          # 'hashFiles creates a hash based on the contents of package-lock.json.
+          key: deps-node-modules-${{ hashFiles('**package-lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -25,6 +34,15 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+        # By caching node_modules the workflow avoids re-downloading dependencies on every run.
+      - name: Cache dependencies
+        uses: action/cache@v3
+        with:
+          # Specifies the path to the npm cache directory which stores dependencies
+          path: ~/.npm
+          # The key is a unique identifier for the cache.
+          # 'hashFiles creates a hash based on the contents of package-lock.json.
+          key: deps-node-modules-${{ hashFiles('**package-lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Build website
