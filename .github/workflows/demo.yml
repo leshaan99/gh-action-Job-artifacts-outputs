@@ -34,7 +34,7 @@ jobs:
         # The ID publish is needed to reference this step's output later
         id: publish
         # Linux command to find the all js files in dist folder and writes the file name to $GITHUB_OUTPUT
-        run: find dist/assest/*.js -type f -execdir echo 'file-name={}' >> $GITHUB_OUTPUT ';'
+        run: find dist/assests/*.js -type f -execdir echo 'file-name={}' >> $GITHUB_OUTPUT ';'
         # Can store the produced files as artifacts using the actions
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
