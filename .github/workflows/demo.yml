@@ -19,6 +19,9 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      # Defines an output called script-file which stores the output of the publish step
+      script-file: ${{ steps.publish.outputs.file-name }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -26,6 +29,12 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+        # Fined the js file name in the dist directory
+      - name: Publish js file name
+        # The ID publish is needed to reference this step's output later
+        id: publish
+        # Linux command to find the all js files in dist folder and writes the file name to $GITHUB_OUTPUT
+        run: find dist/assest/*.js -type f -execdir echo 'file-name={}' >> $GITHUB_OUTPUT ';'
         # Can store the produced files as artifacts using the actions
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -47,5 +56,8 @@ jobs:
         # Check the download the content correctly
       - name: Output content
         run: ls
+      - name: Output filename
+        # This step echoes the value of the script-file output from the build job.
+        run: echo ${{ needs.build.outputs.script-file }}
       - name: Deploy
         run: echo "Deploying..."
